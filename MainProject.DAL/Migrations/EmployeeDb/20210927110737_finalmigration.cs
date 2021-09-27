@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MainProject.DAL.Migrations.EmployeeDb
 {
-    public partial class MasterMigration : Migration
+    public partial class finalmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,14 +14,24 @@ namespace MainProject.DAL.Migrations.EmployeeDb
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    ContactNo = table.Column<string>(nullable: false),
+                    ContactNo = table.Column<string>(maxLength: 12, nullable: false),
                     EmailID = table.Column<string>(nullable: true),
                     Age = table.Column<int>(nullable: false),
-                    Salary = table.Column<double>(nullable: false)
+                    Salary = table.Column<double>(nullable: false),
+                    LocationsID = table.Column<int>(nullable: false),
+                    JobTypesID = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: true),
+                    EmployeeID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_EmployeeID",
+                        column: x => x.EmployeeID,
+                        principalTable: "Employees",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +115,11 @@ namespace MainProject.DAL.Migrations.EmployeeDb
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_EmployeeID",
+                table: "Employees",
+                column: "EmployeeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Masters_EmployeeId",

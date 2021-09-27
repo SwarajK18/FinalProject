@@ -5,6 +5,16 @@
 }
 
 <h1>Index</h1>
+<div class="container-fluid">
+    <div class="row justify-content">
+        <form asp-controller="Master" asp-action="Index" method="get" class="d-flex">
+            <input class="form-control" value="@ViewData["Search"]" name="Search" type="search" placeholder="Search.." aria-label="Search" />
+            <button class="btn btn-outline-info" type="submit">Search</button>
+
+        </form>
+    </div>
+</div>
+<br>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -41,37 +51,57 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuperVisor.SuperVName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobType.JobTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Start)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.End)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuperVisor.SuperVName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobType.JobTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End)
+                </td>
 
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.LocationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @{
+                        double totalPages = ViewBag.TotalPages;
+
+                        for (int i = 1; i <= totalPages; i++)
+                        {
+                            <li class="page-item">@Html.ActionLink(i.ToString(), "Index", new { Search = "", PageNumber = i }, new { @class = "page-link" })</li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>

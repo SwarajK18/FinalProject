@@ -1,5 +1,6 @@
 ﻿using FinalProject.DAL.Data;
 using MainProject.DAL.Data.Models;
+using MainProject.Services.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace MainProject.Services.Services
     public interface IEmployeeService
     {
         public Task<List<Employee>> GetAllEmployees();
+
+        public List<vwlocation> GetEmployeeJoin();
         public Task<Employee> GetEmployeeById(int? id);
         public Task<bool> CreateEmployees(Employee employee);
         public Task UpdateEmployee(Employee employee);
@@ -73,6 +76,33 @@ namespace MainProject.Services.Services
             using (var Context = new EmployeeDbContext())
             {
                 return await Context.Employees.FirstOrDefaultAsync(o => o.ID == id);
+            }
+        }
+
+        public List<vwlocation> GetEmployeeJoin()
+        {
+            using (var Context = new EmployeeDbContext())
+            {
+                try
+                {
+                    var joinEmp = from l in Context.Locations
+                                   join e in Context.Employees
+                                   on l.ID equals e.LocationsID
+                                  join j in Context.JobTypes
+                                  on e.JobTypesID equals j.ID
+                                  select new vwlocation
+                                   {
+                                       EmployeeName = e.Name,
+                                       LocationName = l.LocationName,
+                                       JobTypeName = j.JobTypeName
+
+                                  };
+                    return joinEmp.ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 

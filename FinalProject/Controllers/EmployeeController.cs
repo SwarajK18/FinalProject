@@ -25,6 +25,7 @@ namespace FinalProject.Controllers
         // GET: Employee
         public async Task<IActionResult> Index()
         {
+            ViewData["joinEmp"] = _employeeService.GetEmployeeJoin();
             //return View(await _context.Employees.ToListAsync());
             return View(await _employeeService.GetAllEmployees());
         }

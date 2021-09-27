@@ -23,9 +23,29 @@ namespace FinalProject.Controllers
         }
 
         // GET: Master
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Search, int PageNumber = 1)
         {
-            return View(await _masterService.GetAllMasters());
+            var masters = new List<Master>();
+            if (Search == null)
+            {
+                masters = await _masterService.GetAllMasters();
+            }
+            else
+            {
+                ViewData["Search"] = Search;
+                Search = Search.ToLower();
+                var result = await _masterService.GetAllMasters();
+
+                masters = result.Where(s => s.Employee.Name.ToLower().Contains(Search) || s.SuperVisor.SuperVName.ToLower().Contains(Search) || s.JobType.JobTypeName.ToLower().Contains(Search)).ToList();
+
+            }
+
+            ViewBag.TotalPages = Math.Ceiling(masters.Count() / 5.0);
+            masters = masters.Skip((PageNumber - 1) * 5).Take(5).ToList();
+
+            return View(masters.OrderBy(m => m.Employee.Name));
+            //return View(await _masterService.GetAllMasters());
+
             //var employeeDbContext = _context.Masters.Include(m => m.Employee).Include(m => m.JobType).Include(m => m.Location).Include(m => m.SuperVisor);
             //return View(await employeeDbContext.ToListAsync());
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainProject.DAL.Migrations.EmployeeDb
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20210923094252_MasterMigration")]
-    partial class MasterMigration
+    [Migration("20210927110737_finalmigration")]
+    partial class finalmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,10 +33,23 @@ namespace MainProject.DAL.Migrations.EmployeeDb
 
                     b.Property<string>("ContactNo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(12)")
+                        .HasMaxLength(12);
 
                     b.Property<string>("EmailID")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobTypesID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationsID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -46,6 +59,8 @@ namespace MainProject.DAL.Migrations.EmployeeDb
                         .HasColumnType("float");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("EmployeeID");
 
                     b.ToTable("Employees");
                 });
@@ -134,6 +149,13 @@ namespace MainProject.DAL.Migrations.EmployeeDb
                     b.HasKey("ID");
 
                     b.ToTable("SuperVisors");
+                });
+
+            modelBuilder.Entity("MainProject.DAL.Data.Models.Employee", b =>
+                {
+                    b.HasOne("MainProject.DAL.Data.Models.Employee", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("EmployeeID");
                 });
 
             modelBuilder.Entity("MainProject.DAL.Data.Models.Master", b =>

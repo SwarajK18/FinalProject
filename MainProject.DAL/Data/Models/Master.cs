@@ -8,23 +8,25 @@ namespace MainProject.DAL.Data.Models
 {
     public class Master
     {
+
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "Please Select Employee Name")]
         [Display(Name = "Employee")]
         public int EmployeeId { get; set; }
-
+        [Required(ErrorMessage = "Please Select SuperVisor Name")]
         [Display(Name = "SuperVisior")]
         public int SuperVisorId { get; set; }
-
+        [Required(ErrorMessage = "Please Select Job Type")]
         [Display(Name = "JobType")]
         public int JobTypeId { get; set; }
-
+        [Required(ErrorMessage = "Please Select Start Date & Time")]
         [Display(Name = "Start Date & Time")]
         public DateTime Start { get; set; }
-
+        [Required(ErrorMessage = "Please Select End Date & Time")]
         [Display(Name = "End Date & Time")]
         public DateTime End { get; set; }
-
+        [Required(ErrorMessage = "Please Select Location")]
         [Display(Name = "Location")]
         public int LocationId { get; set; }
 
