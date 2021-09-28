@@ -35,7 +35,7 @@ namespace FinalProject.DAL.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=SWARAJK\\SQLEXPRESS;Database=FinalProject;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=SWARAJK\\SQLEXPRESS;Database=FinalProject;User Id=sa;Password=123");
             }
         }
     }
