@@ -39,11 +39,11 @@ namespace FinalProject.Controllers
                 masters = result.Where(s => s.Employee.Name.ToLower().Contains(Search) || s.SuperVisor.SuperVName.ToLower().Contains(Search) || s.JobType.JobTypeName.ToLower().Contains(Search)).ToList();
 
             }
-
+            var name = masters.OrderBy(m => m.Employee.Name);
             ViewBag.TotalPages = Math.Ceiling(masters.Count() / 5.0);
-            masters = masters.Skip((PageNumber - 1) * 5).Take(5).ToList();
+            masters = name.Skip((PageNumber - 1) * 5).Take(5).ToList();
 
-            return View(masters.OrderBy(m => m.Employee.Name));
+            return View(masters);
             //return View(await _masterService.GetAllMasters());
 
             //var employeeDbContext = _context.Masters.Include(m => m.Employee).Include(m => m.JobType).Include(m => m.Location).Include(m => m.SuperVisor);
